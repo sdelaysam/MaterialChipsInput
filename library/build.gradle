@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 9
-        versionName "1.0.8"
+        versionCode 10
+        versionName "1.0.9"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -19,6 +19,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
 }
 
 dependencies {
@@ -36,6 +45,3 @@ dependencies {
     // circle image view
     implementation 'de.hdodenhof:circleimageview:2.1.0'
 }
-
-apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.pchmn'
