@@ -22,6 +22,7 @@ import com.pchmn.materialchips.util.ViewUtil;
 import com.pchmn.materialchips.views.ChipsInputEditText;
 import com.pchmn.materialchips.views.DetailedChipView;
 import com.pchmn.materialchips.views.FilterableListView;
+import com.pchmn.materialchips.views.PinkDetailedChipView;
 import com.pchmn.materialchips.views.ScrollViewMaxHeight;
 
 import java.util.ArrayList;
@@ -213,11 +214,12 @@ public class ChipsInput extends ScrollViewMaxHeight {
         if(mTextColor != null)
             editText.setTextColor(mTextColor);
 
+        editText.setId(R.id.chips_input_edit_text);
         return editText;
     }
 
     public DetailedChipView getDetailedChipView(ChipInterface chip) {
-        return new DetailedChipView.Builder(mContext)
+        return new PinkDetailedChipView.Builder(mContext)
                 .chip(chip)
                 .textColor(mChipDetailedTextColor)
                 .backgroundColor(mChipDetailedBackgroundColor)

@@ -6,22 +6,21 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import com.pchmn.materialchips.ChipView;
 import com.pchmn.materialchips.ChipsInput;
 import com.pchmn.materialchips.model.ChipInterface;
+import com.pchmn.materialchips.util.ViewUtil;
 import com.pchmn.materialchips.views.ChipsInputEditText;
 import com.pchmn.materialchips.views.DetailedChipView;
-import com.pchmn.materialchips.model.Chip;
-import com.pchmn.materialchips.util.ViewUtil;
 import com.pchmn.materialchips.views.FilterableListView;
 
 import java.util.ArrayList;
@@ -82,12 +81,20 @@ public class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         // edit text
-        if(position == mChipList.size()) {
-            if(mChipList.size() == 0)
+        if (position == mChipList.size()) {
+            if (mChipList.size() == 0) {
                 mEditText.setHint(mHintLabel);
 
-            // auto fit edit text
-            autofitEditText();
+                //hide keyboard when view is empty
+                InputMethodManager inputMethodManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (inputMethodManager != null) {
+                    inputMethodManager.hideSoftInputFromWindow(mRecycler.getWindowToken(), 0);
+                }
+                
+                autofitEditText(false);
+            } else {
+                autofitEditText(true);
+            }
         }
         // chip
         else if(getItemCount() > 1) {
@@ -166,7 +173,7 @@ public class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         });
     }
 
-    private void autofitEditText() {
+    private void autofitEditText(final boolean requestFocus) {
         // min width of edit text = 50 dp
         ViewGroup.LayoutParams params = mEditText.getLayoutParams();
         params.width = ViewUtil.dpToPx(50);
@@ -186,8 +193,11 @@ public class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 params.width = right - left - ViewUtil.dpToPx(8);
                 mEditText.setLayoutParams(params);
 
-                // request focus
-                mEditText.requestFocus();
+                mEditText.setEnabled(((View) mEditText.getParent()).isEnabled());
+
+                if (requestFocus) {
+                    mEditText.requestFocus();
+                }
 
                 // remove the listener:
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
