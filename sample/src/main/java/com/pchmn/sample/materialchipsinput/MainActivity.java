@@ -7,23 +7,20 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.toString();
-    @BindView(R.id.contacts_button) Button mContactListButton;
-    @BindView(R.id.custom_chips_button) Button mCustomChipsButton;
+    Button mContactListButton;
+    Button mCustomChipsButton;
     private int mStackLevel = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // butter knife
-        ButterKnife.bind(this);
+        mContactListButton = findViewById(R.id.contacts_button);
+        mCustomChipsButton = findViewById(R.id.custom_chips_button);
+        findViewById(R.id.dialog_fragment).setOnClickListener(v -> showDialog());
 
         mContactListButton.setOnClickListener(view -> {
             startActivity(new Intent(MainActivity.this, ContactListActivity.class));
@@ -34,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @OnClick(R.id.dialog_fragment)
     public void showDialog() {
         mStackLevel++;
 

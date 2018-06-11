@@ -1,36 +1,40 @@
 package com.pchmn.sample.materialchipsinput;
 
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.pchmn.materialchips.ChipView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class ChipExamplesActivity extends AppCompatActivity {
 
     private static final String TAG = ChipExamplesActivity.class.toString();
-    @BindView(R.id.layout) LinearLayout mLayout;
-    @BindView(R.id.chip1) ChipView mChip1;
-    @BindView(R.id.chip2) ChipView mChip2;
-    @BindView(R.id.chip3) ChipView mChip3;
-    @BindView(R.id.chip4) ChipView mChip4;
-    @BindView(R.id.chip5) ChipView mChip5;
-    @BindView(R.id.chip6) ChipView mChip6;
-    @BindView(R.id.chip7) ChipView mChip7;
+    LinearLayout mLayout;
+    ChipView mChip1;
+    ChipView mChip2;
+    ChipView mChip3;
+    ChipView mChip4;
+    ChipView mChip5;
+    ChipView mChip6;
+    ChipView mChip7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chip_examples);
         // butter knife
-        ButterKnife.bind(this);
+
+        mLayout = findViewById(R.id.layout);
+        mChip1 = findViewById(R.id.chip1);
+        mChip2 = findViewById(R.id.chip2);
+        mChip3 = findViewById(R.id.chip3);
+        mChip4 = findViewById(R.id.chip4);
+        mChip5 = findViewById(R.id.chip5);
+        mChip6 = findViewById(R.id.chip6);
+        mChip7 = findViewById(R.id.chip7);
 
         // chip 1
         mChip1.setOnChipClicked(view -> {
