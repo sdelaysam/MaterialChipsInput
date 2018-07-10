@@ -210,7 +210,7 @@ public class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         });
     }
 
-    private void handleClickOnEditText(ChipView chipView, final int position) {
+    private void handleClickOnEditText(final ChipView chipView, final int position) {
         // delete chip
         chipView.setOnDeleteClicked(new View.OnClickListener() {
             @Override
@@ -229,7 +229,12 @@ public class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     v.getLocationInWindow(coord);
 
                     final DetailedChipView detailedChipView = mChipsInput.getDetailedChipView(getItem(position));
-                    setDetailedChipViewPosition(detailedChipView, coord);
+                    ChipsInput.DetailedViewPositionType positionType = mChipsInput.getDetailedViewPositionType();
+                    if (positionType == ChipsInput.DetailedViewPositionType.OVERFLOW) {
+                        setOverflowDetailedViewPosition(detailedChipView, coord, v.getWidth(), v.getHeight());
+                    } else {
+                        setDetailedChipViewPosition(detailedChipView, coord);
+                    }
 
                     // delete button
                     detailedChipView.setOnDeleteClicked(new View.OnClickListener() {
@@ -244,7 +249,23 @@ public class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
+    private void setOverflowDetailedViewPosition(DetailedChipView detailedChipView, int[] coord, int width, int height) {
+        detailedChipView.measure(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        int measuredWidth = detailedChipView.getMeasuredWidth();
+        int measuredHeight = detailedChipView.getMeasuredHeight();
+
+        float x = coord[0] + (float)(width - measuredWidth) / 2;
+        float y = coord[1] + (float)(height - measuredHeight) / 2;
+
+        ViewGroup rootView = (ViewGroup) mRecycler.getRootView();
+        rootView.addView(detailedChipView);
+        detailedChipView.setX(x);
+        detailedChipView.setY(y);
+        detailedChipView.fadeIn();
+    }
+
     private void setDetailedChipViewPosition(DetailedChipView detailedChipView, int[] coord) {
+        // TODO: fix this shit
         // window width
         ViewGroup rootView = (ViewGroup) mRecycler.getRootView();
         int windowWidth = ViewUtil.getWindowWidth(mContext);

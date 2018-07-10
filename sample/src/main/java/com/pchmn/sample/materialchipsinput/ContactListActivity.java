@@ -32,6 +32,7 @@ public class ContactListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_list);
         mChipsInput = findViewById(R.id.chips_input);
+        mChipsInput.setDetailedViewPositionType(ChipsInput.DetailedViewPositionType.OVERFLOW);
         mValidateButton = findViewById(R.id.validate);
         mChipListText = findViewById(R.id.chip_list);
         mContactList = new ArrayList<>();

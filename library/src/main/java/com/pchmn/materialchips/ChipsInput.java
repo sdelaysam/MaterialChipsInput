@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
@@ -42,6 +43,7 @@ public class ChipsInput extends ScrollViewMaxHeight {
     private String mHint;
     private ColorStateList mHintColor;
     private ColorStateList mTextColor;
+    private float mInputTextSize;
     private int mMaxRows = 2;
     private ColorStateList mChipLabelColor;
     private boolean mChipHasAvatarIcon = true;
@@ -50,6 +52,7 @@ public class ChipsInput extends ScrollViewMaxHeight {
     private ColorStateList mChipDeleteIconColor;
     private ColorStateList mChipBackgroundColor;
     private boolean mShowChipDetailed = true;
+    private DetailedViewPositionType mDetailedViewPositionType = DetailedViewPositionType.ON_TOP;
     private ColorStateList mChipDetailedTextColor;
     private ColorStateList mChipDetailedDeleteIconColor;
     private ColorStateList mChipDetailedBackgroundColor;
@@ -98,6 +101,7 @@ public class ChipsInput extends ScrollViewMaxHeight {
                 mHint = a.getString(R.styleable.ChipsInput_hint);
                 mHintColor = a.getColorStateList(R.styleable.ChipsInput_hintColor);
                 mTextColor = a.getColorStateList(R.styleable.ChipsInput_textColor);
+                mInputTextSize = a.getDimension(R.styleable.ChipsInput_inputTextSize, ViewUtil.dpToPx(14));
                 mMaxRows = a.getInteger(R.styleable.ChipsInput_maxRows, 2);
                 setMaxHeight(ViewUtil.dpToPx((40 * mMaxRows) + 8));
                 //setVerticalScrollBarEnabled(true);
@@ -213,7 +217,7 @@ public class ChipsInput extends ScrollViewMaxHeight {
             editText.setHintTextColor(mHintColor);
         if(mTextColor != null)
             editText.setTextColor(mTextColor);
-
+        editText.setTextSize(TypedValue.COMPLEX_UNIT_PX, mInputTextSize);
         editText.setId(R.id.chips_input_edit_text);
         return editText;
     }
@@ -321,6 +325,15 @@ public class ChipsInput extends ScrollViewMaxHeight {
         return mShowChipDetailed;
     }
 
+    public ChipsInput setDetailedViewPositionType(DetailedViewPositionType detailedViewPositionType) {
+        this.mDetailedViewPositionType = detailedViewPositionType;
+        return this;
+    }
+
+    public DetailedViewPositionType getDetailedViewPositionType() {
+        return mDetailedViewPositionType;
+    }
+
     public void setChipDetailedTextColor(ColorStateList mChipDetailedTextColor) {
         this.mChipDetailedTextColor = mChipDetailedTextColor;
     }
@@ -360,5 +373,10 @@ public class ChipsInput extends ScrollViewMaxHeight {
 
     public interface ChipValidator {
         boolean areEquals(ChipInterface chip1, ChipInterface chip2);
+    }
+
+    public enum DetailedViewPositionType {
+        ON_TOP,
+        OVERFLOW
     }
 }
