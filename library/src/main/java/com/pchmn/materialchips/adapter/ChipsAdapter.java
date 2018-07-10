@@ -250,7 +250,7 @@ public class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     private void setOverflowDetailedViewPosition(DetailedChipView detailedChipView, int[] coord, int width, int height) {
-        detailedChipView.measure(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        detailedChipView.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         int measuredWidth = detailedChipView.getMeasuredWidth();
         int measuredHeight = detailedChipView.getMeasuredHeight();
 
@@ -258,7 +258,7 @@ public class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         float y = coord[1] + (float)(height - measuredHeight) / 2;
 
         ViewGroup rootView = (ViewGroup) mRecycler.getRootView();
-        rootView.addView(detailedChipView);
+        rootView.addView(detailedChipView, new RelativeLayout.LayoutParams(measuredWidth, measuredHeight));
         detailedChipView.setX(x);
         detailedChipView.setY(y);
         detailedChipView.fadeIn();
