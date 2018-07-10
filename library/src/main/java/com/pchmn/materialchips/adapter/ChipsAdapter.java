@@ -258,7 +258,7 @@ public class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         float y = coord[1] + (float)(height - measuredHeight) / 2;
 
         ViewGroup rootView = (ViewGroup) mRecycler.getRootView();
-        rootView.addView(detailedChipView, new RelativeLayout.LayoutParams(measuredWidth, measuredHeight));
+        rootView.addView(detailedChipView, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         detailedChipView.setX(x);
         detailedChipView.setY(y);
         detailedChipView.fadeIn();
