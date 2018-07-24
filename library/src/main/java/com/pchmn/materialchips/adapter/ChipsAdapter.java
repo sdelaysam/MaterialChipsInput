@@ -254,11 +254,14 @@ public class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         int measuredWidth = detailedChipView.getMeasuredWidth();
         int measuredHeight = detailedChipView.getMeasuredHeight();
 
-        float x = coord[0] + (float)(width - measuredWidth) / 2;
-        float y = coord[1] + (float)(height - measuredHeight) / 2;
-
         ViewGroup rootView = (ViewGroup) mRecycler.getRootView();
-        rootView.addView(detailedChipView, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        int w = Math.min(measuredWidth, rootView.getWidth());
+        int h = Math.min(measuredHeight, rootView.getHeight());
+        float x = Math.max(0, coord[0] + (width - w) / 2);
+        float y = Math.max(0, coord[1] + (height - h) / 2);
+
+
+        rootView.addView(detailedChipView, new RelativeLayout.LayoutParams(w, h));
         detailedChipView.setX(x);
         detailedChipView.setY(y);
         detailedChipView.fadeIn();
