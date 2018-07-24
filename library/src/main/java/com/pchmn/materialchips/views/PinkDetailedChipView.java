@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,7 +30,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PinkDetailedChipView extends DetailedChipView {
 
     // xml elements
-    RelativeLayout mContentLayout;
+    ViewGroup mContentLayout;
     CircleImageView mAvatarIconImageView;
     TextView mNameTextView;
     TextView mInfoTextView;
@@ -66,7 +67,7 @@ public class PinkDetailedChipView extends DetailedChipView {
     }
 
     @Override
-    public RelativeLayout getContentLayout() {
+    public ViewGroup getContentLayout() {
         return mContentLayout;
     }
 

@@ -20,7 +20,7 @@ public abstract class DetailedChipView extends RelativeLayout {
         super(context, attrs);
     }
 
-    public abstract RelativeLayout getContentLayout();
+    public abstract ViewGroup getContentLayout();
 
     public abstract void setOnDeleteClicked(OnClickListener onClickListener);
 
@@ -32,18 +32,10 @@ public abstract class DetailedChipView extends RelativeLayout {
     protected void init(AttributeSet attrs) {
         // hide on first
         setVisibility(GONE);
-        // hide on touch outside
-        hideOnTouchOutside();
-    }
-
-    /**
-     * Hide the view on touch outside of it
-     */
-    protected void hideOnTouchOutside() {
-        // set focusable
         setFocusable(true);
         setFocusableInTouchMode(true);
         setClickable(true);
+        setBackgroundColor(0x01000000);
     }
 
     /**
@@ -86,17 +78,16 @@ public abstract class DetailedChipView extends RelativeLayout {
         setVisibility(GONE);
         // fix onclick issue
         clearFocus();
-        setClickable(false);
     }
 
     public void alignLeft() {
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) getContentLayout().getLayoutParams();
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) getContentLayout().getLayoutParams();
         params.leftMargin = 0;
         getContentLayout().setLayoutParams(params);
     }
 
     public void alignRight() {
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) getContentLayout().getLayoutParams();
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) getContentLayout().getLayoutParams();
         params.rightMargin = 0;
         getContentLayout().setLayoutParams(params);
     }

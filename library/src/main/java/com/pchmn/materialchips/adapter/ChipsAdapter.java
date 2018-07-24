@@ -211,14 +211,6 @@ public class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     private void handleClickOnEditText(final ChipView chipView, final int position) {
-        // delete chip
-        chipView.setOnDeleteClicked(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeChip(position);
-            }
-        });
-
         // show detailed chip
         if(mChipsInput.isShowChipDetailed()) {
             chipView.setOnChipClicked(new View.OnClickListener() {
@@ -250,20 +242,27 @@ public class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     private void setOverflowDetailedViewPosition(DetailedChipView detailedChipView, int[] coord, int width, int height) {
-        detailedChipView.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        int measuredWidth = detailedChipView.getMeasuredWidth();
-        int measuredHeight = detailedChipView.getMeasuredHeight();
-
         ViewGroup rootView = (ViewGroup) mRecycler.getRootView();
+        rootView.addView(detailedChipView, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+
+        ViewGroup content = detailedChipView.getContentLayout();
+        content.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        int measuredWidth = content.getMeasuredWidth();
+        int measuredHeight = content.getMeasuredHeight();
+
         int w = Math.min(measuredWidth, rootView.getWidth());
         int h = Math.min(measuredHeight, rootView.getHeight());
-        float x = Math.max(0, coord[0] + (width - w) / 2);
-        float y = Math.max(0, coord[1] + (height - h) / 2);
+        int x = Math.max(0, coord[0] + (width - w) / 2);
+        int y = Math.max(0, coord[1] + (height - h) / 2);
 
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) content.getLayoutParams();
+        params.leftMargin = x;
+        params.topMargin = y;
+        content.setLayoutParams(params);
 
-        rootView.addView(detailedChipView, new RelativeLayout.LayoutParams(w, h));
-        detailedChipView.setX(x);
-        detailedChipView.setY(y);
+//
+//        content.setX(x);
+//        content.setY(y);
         detailedChipView.fadeIn();
     }
 
@@ -415,8 +414,9 @@ public class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             for(ChipInterface item: contactList) {
                 if(chip.getId() != null && chip.getId().equals(item.getId()))
                     return true;
-                if(chip.getLabel().equals(item.getLabel()))
-                    return true;
+                // WTF, labels my be equal while IDs differ
+//                if(chip.getLabel().equals(item.getLabel()))
+//                    return true;
             }
         }
 

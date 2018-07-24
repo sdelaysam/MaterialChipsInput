@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import com.pchmn.materialchips.views.ChipsInputEditText;
 import com.pchmn.materialchips.views.DetailedChipView;
@@ -47,10 +48,12 @@ public class MyWindowCallback implements Window.Callback {
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
             View v = mActivity.getCurrentFocus();
             if(v instanceof DetailedChipView) {
+                DetailedChipView detailedChipView = (DetailedChipView) v;
+                View contentView = detailedChipView.getContentLayout();
                 Rect outRect = new Rect();
-                v.getGlobalVisibleRect(outRect);
+                contentView.getGlobalVisibleRect(outRect);
                 if (!outRect.contains((int) motionEvent.getRawX(), (int) motionEvent.getRawY())) {
-                    ((DetailedChipView) v).fadeOut();
+                    detailedChipView.fadeOut();
                 }
             }
             if (v instanceof ChipsInputEditText) {
